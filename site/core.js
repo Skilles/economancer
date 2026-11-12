@@ -431,8 +431,12 @@ function buyLevels(levels, maxPrice, capUnits, capCost) {
   return { units, cost, maxPaid };
 }
 export function rankWeight(row) {
-  if (!row || row.spd == null) {
+  if (!row) {
     return 0.5;
+  }
+  if (row.spd == null) {
+    // No sales data yet: a lone listing is a weak signal of what something really sells for.
+    return row.n <= 2 ? 0.15 : 0.5;
   }
   return row.spd >= S.settings.minSpd ? 1 : 0.25;
 }

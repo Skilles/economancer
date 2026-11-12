@@ -17,6 +17,12 @@ function spdChip(row, label = "sells") {
   const cls = row.spd >= S.settings.minSpd ? "" : "warn";
   return `<span class="chip ${cls}">${label} ~${fmtNum(row.spd)}/day</span>`;
 }
+function thinChip(row) {
+  if (row && row.n <= 2 && row.spd == null) {
+    return `<span class="chip warn">only ${row.n} listing${row.n === 1 ? "" : "s"} — price unproven</span>`;
+  }
+  return "";
+}
 function houseChip(h) {
   return `<span class="chip ${h}">${factionLabel(h)}${h === "vendor" ? "" : " AH"}</span>`;
 }
@@ -48,7 +54,7 @@ function renderPick(p) {
         money(p.profit),
         `Buy ${d.units}× on ${factionLabel(d.buyHouse)} for ${money(d.cost / d.units)} each, sell on ${factionLabel(d.sellHouse)} at ${money(d.sell)}`,
         "",
-        `<span class="chip">${esc(d.label)}</span><span class="chip good">ROI ${pct(d.roi)}</span><span class="chip">invest ${money(p.invest)}</span>${spdChip(d.sellRow)}${d.transferFee > 0 ? '<span class="chip warn">needs an alt on a 2nd account</span>' : ""}`,
+        `<span class="chip">${esc(d.label)}</span><span class="chip good">ROI ${pct(d.roi)}</span><span class="chip">invest ${money(p.invest)}</span>${spdChip(d.sellRow)}${thinChip(d.sellRow)}${d.transferFee > 0 ? '<span class="chip warn">needs an alt on a 2nd account</span>' : ""}`,
       );
     case "flip": {
       const why = d.why === "gap" ? `next listing is ${pct(d.gap)} higher` : `below its typical ${money(d.row.base)}`;

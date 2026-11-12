@@ -1,0 +1,18 @@
+name: Hourly refresh
+
+# GitHub runs scheduled workflows as the last person to edit this file, so it must be
+# committed by someone with access to the repo (the owner) or it never fires.
+on:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write
+
+jobs:
+  refresh:
+    uses: ./.github/workflows/update.yml
+    secrets: inherit

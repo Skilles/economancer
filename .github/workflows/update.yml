@@ -1,8 +1,10 @@
 name: Update auction data
 
+# The hourly schedule lives in hourly.yml, which calls this workflow. GitHub runs a
+# schedule as whoever last edited the file containing it, so keep that file owned by
+# the repo owner and change this one freely.
 on:
-  schedule:
-    - cron: "17 * * * *" # hourly, off the top of the hour
+  workflow_call:
   workflow_dispatch:
   push:
     branches: [main]

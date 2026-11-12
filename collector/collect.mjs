@@ -18,7 +18,7 @@ const STATE = path.resolve(process.env.STATE_DIR ?? path.join(ROOT, "state"));
 const OUT = path.resolve(process.env.OUT_DIR ?? path.join(ROOT, "public"));
 const SITE = path.join(ROOT, "site");
 const REGIONS = (process.env.REGIONS ?? "us,eu").split(",").map((r) => r.trim()).filter(Boolean);
-const MAX_ITEM_FETCH = Number(process.env.MAX_ITEM_FETCH ?? 4000);
+const MAX_ITEM_FETCH = Number(process.env.MAX_ITEM_FETCH ?? 6000);
 const RECIPE_REFRESH_DAYS = 7;
 const POP_REFRESH_HOURS = 6;
 
@@ -233,7 +233,13 @@ async function main() {
   for (const id of curated.vendorItems) {
     wanted.set(id, 1e7);
   }
+  if (meta.itemMissV !== 2) {
+    meta.itemMiss = {}; // v1 cached rate-limit failures as misses
+    meta.itemMissV = 2;
+  }
   meta.itemMiss ??= {};
+  const itemStats = { tried: 0, found: 0, viaClassic: 0, notFound: 0, errors: 0 };
+  publicMeta.stats = { items: itemStats };
   const missing = [...wanted.entries()]
     .filter(([id]) => !items[id] && !(meta.itemMiss[id] && now - meta.itemMiss[id] < 3 * 86400))
     .sort((a, b) => b[1] - a[1])
@@ -246,10 +252,12 @@ async function main() {
     const region0 = REGIONS[0];
     // Forever's item endpoint 404s on many ids; Classic Era shares vanilla ids, so fall back to it for names.
     const namespaces = [undefined, `static-classic1x-${region0}`, `static-classic-${region0}`];
-    await pool(missing, 16, async (id) => {
+    itemStats.tried = missing.length;
+    await pool(missing, 8, async (id) => {
+      let errored = false;
       for (const ns of namespaces) {
         try {
-          const res = await api.get(region0, `/data/wow/item/${id}`, "static", { namespace: ns, retries: 2 });
+          const res = await api.get(region0, `/data/wow/item/${id}`, "static", { namespace: ns, retries: 4 });
           const d = res.data;
           if (!d) {
             continue;
@@ -266,15 +274,22 @@ async function main() {
           ];
           if (ns) {
             fromClassic++;
+            itemStats.viaClassic++;
           }
+          itemStats.found++;
           delete meta.itemMiss[id];
           return;
         } catch {
-          // try the next namespace
+          errored = true; // transient (rate limit / 5xx): retry next run, don't cache as a miss
         }
       }
       failed++;
-      meta.itemMiss[id] = now;
+      if (errored) {
+        itemStats.errors++;
+      } else {
+        itemStats.notFound++;
+        meta.itemMiss[id] = now;
+      }
     });
     log(`items: ${missing.length - failed} found (${fromClassic} via Classic), ${failed} not found anywhere`);
   }
@@ -419,6 +434,9 @@ async function main() {
   publicMeta.forecastModel = model;
   await writeJson(path.join(OUT, "data/items.json"), pubItems);
   await writeJson(path.join(OUT, "data/recipes.json"), recipes);
+  publicMeta.stats.requests = api.requests;
+  publicMeta.stats.throttled = api.throttled;
+  publicMeta.stats.seconds = Math.round((Date.now() - started) / 1000);
   await writeJson(path.join(OUT, "data/meta.json"), publicMeta);
 
   meta.lastRun = now;

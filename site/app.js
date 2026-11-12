@@ -334,6 +334,9 @@ function viewForecast() {
   const pr = F.progression ?? {};
   const pop = S.meta.regions[S.region]?.population;
   const { up, down, all } = forecasts();
+  if (S.forecastView === "up" && up.length === 0 && down.length > 0 && !S.forecastViewChosen) {
+    S.forecastView = "down";
+  }
   const tabs = [["up", `Stock up (${up.length})`], ["down", `Sell now (${down.length})`], ["tiers", "By tier"]];
   let body;
   if (S.forecastView === "up") {
@@ -827,6 +830,7 @@ function bind() {
     const fv = e.target.closest("[data-fview]");
     if (fv) {
       S.forecastView = fv.dataset.fview;
+      S.forecastViewChosen = true;
       render();
       return;
     }

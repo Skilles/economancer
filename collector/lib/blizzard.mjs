@@ -14,6 +14,19 @@ export class Blizzard {
     this.token = null;
     this.tokenExpires = 0;
     this.requests = 0;
+    this.throttled = 0;
+    // Blizzard allows 100 requests/second per client; stay safely under it.
+    this.minIntervalMs = Number(process.env.BLIZZARD_MIN_INTERVAL_MS ?? 13);
+    this.nextSlot = 0;
+  }
+
+  async slot() {
+    const now = Date.now();
+    const at = Math.max(now, this.nextSlot);
+    this.nextSlot = at + this.minIntervalMs;
+    if (at > now) {
+      await sleep(at - now);
+    }
   }
 
   async getToken() {
@@ -67,6 +80,7 @@ export class Blizzard {
       }
       let res;
       try {
+        await this.slot();
         this.requests++;
         res = await fetch(url, { headers });
       } catch (err) {
@@ -87,6 +101,9 @@ export class Blizzard {
         continue;
       }
       if ((res.status === 429 || res.status >= 500) && attempt < retries) {
+        if (res.status === 429) {
+          this.throttled++;
+        }
         await sleep(1500 * 2 ** attempt);
         continue;
       }

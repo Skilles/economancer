@@ -15,3 +15,4 @@ for t in $(seq 0 $((HOURS-1))); do
   REGIONS=us STATE_DIR=test/state OUT_DIR=test/public \
   node collector/collect.mjs | tail -n ${VERBOSE:-3}
 done
+(cd addon && zip -qr ../test/public/Economancer-addon.zip Economancer) 2>/dev/null || true

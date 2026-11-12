@@ -44,6 +44,9 @@ jobs:
           BLIZZARD_CLIENT_SECRET: ${{ secrets.BLIZZARD_CLIENT_SECRET }}
           REGIONS: ${{ vars.REGIONS || 'us,eu' }}
 
+      - name: Package addon
+        run: cd addon && zip -qr ../public/Economancer-addon.zip Economancer
+
       - name: Save state
         uses: actions/cache/save@v4
         with:

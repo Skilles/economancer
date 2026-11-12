@@ -37,8 +37,8 @@
     { "name": "Greater Fire Protection Potion", "prof": "Alchemy", "out": 13457, "outQty": 1, "mats": [[7068, 1], [13463, 1], [8925, 1]] },
     { "name": "Free Action Potion", "prof": "Alchemy", "out": 5634, "outQty": 1, "mats": [[6370, 2], [3820, 1], [3372, 1]] },
 
-    { "name": "Stonescale Oil", "prof": "Fishing/Cooking", "out": 13423, "outQty": 1, "mats": [[13422, 1]] },
-    { "name": "Blackmouth Oil", "prof": "Fishing/Cooking", "out": 6370, "outQty": 1, "mats": [[6358, 1]] },
+    { "name": "Stonescale Oil", "prof": "Alchemy", "out": 13423, "outQty": 1, "mats": [[13422, 1]] },
+    { "name": "Blackmouth Oil", "prof": "Alchemy", "out": 6370, "outQty": 1, "mats": [[6358, 1]] },
 
     { "name": "Bolt of Linen Cloth", "prof": "Tailoring", "out": 2996, "outQty": 1, "mats": [[2589, 2]] },
     { "name": "Bolt of Woolen Cloth", "prof": "Tailoring", "out": 2997, "outQty": 1, "mats": [[2592, 3]] },
@@ -47,16 +47,16 @@
     { "name": "Bolt of Runecloth", "prof": "Tailoring", "out": 14048, "outQty": 1, "mats": [[14047, 5]] },
     { "name": "Mooncloth", "prof": "Tailoring", "out": 14342, "outQty": 1, "mats": [[14256, 2]], "cd": true },
 
-    { "name": "Combine Lesser Magic Essence", "prof": "Enchanting", "out": 10939, "outQty": 1, "mats": [[10938, 3]] },
-    { "name": "Split Greater Magic Essence", "prof": "Enchanting", "out": 10938, "outQty": 3, "mats": [[10939, 1]] },
-    { "name": "Combine Lesser Astral Essence", "prof": "Enchanting", "out": 11082, "outQty": 1, "mats": [[10998, 3]] },
-    { "name": "Split Greater Astral Essence", "prof": "Enchanting", "out": 10998, "outQty": 3, "mats": [[11082, 1]] },
-    { "name": "Combine Lesser Mystic Essence", "prof": "Enchanting", "out": 11135, "outQty": 1, "mats": [[11134, 3]] },
-    { "name": "Split Greater Mystic Essence", "prof": "Enchanting", "out": 11134, "outQty": 3, "mats": [[11135, 1]] },
-    { "name": "Combine Lesser Nether Essence", "prof": "Enchanting", "out": 11175, "outQty": 1, "mats": [[11174, 3]] },
-    { "name": "Split Greater Nether Essence", "prof": "Enchanting", "out": 11174, "outQty": 3, "mats": [[11175, 1]] },
-    { "name": "Combine Lesser Eternal Essence", "prof": "Enchanting", "out": 16203, "outQty": 1, "mats": [[16202, 3]] },
-    { "name": "Split Greater Eternal Essence", "prof": "Enchanting", "out": 16202, "outQty": 3, "mats": [[16203, 1]] }
+    { "name": "Combine Lesser Magic Essence", "prof": "Any (item use)", "anyone": true, "out": 10939, "outQty": 1, "mats": [[10938, 3]] },
+    { "name": "Split Greater Magic Essence", "prof": "Any (item use)", "anyone": true, "out": 10938, "outQty": 3, "mats": [[10939, 1]] },
+    { "name": "Combine Lesser Astral Essence", "prof": "Any (item use)", "anyone": true, "out": 11082, "outQty": 1, "mats": [[10998, 3]] },
+    { "name": "Split Greater Astral Essence", "prof": "Any (item use)", "anyone": true, "out": 10998, "outQty": 3, "mats": [[11082, 1]] },
+    { "name": "Combine Lesser Mystic Essence", "prof": "Any (item use)", "anyone": true, "out": 11135, "outQty": 1, "mats": [[11134, 3]] },
+    { "name": "Split Greater Mystic Essence", "prof": "Any (item use)", "anyone": true, "out": 11134, "outQty": 3, "mats": [[11135, 1]] },
+    { "name": "Combine Lesser Nether Essence", "prof": "Any (item use)", "anyone": true, "out": 11175, "outQty": 1, "mats": [[11174, 3]] },
+    { "name": "Split Greater Nether Essence", "prof": "Any (item use)", "anyone": true, "out": 11174, "outQty": 3, "mats": [[11175, 1]] },
+    { "name": "Combine Lesser Eternal Essence", "prof": "Any (item use)", "anyone": true, "out": 16203, "outQty": 1, "mats": [[16202, 3]] },
+    { "name": "Split Greater Eternal Essence", "prof": "Any (item use)", "anyone": true, "out": 16202, "outQty": 3, "mats": [[16203, 1]] }
   ],
 
   "materialTags": {

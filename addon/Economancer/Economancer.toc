@@ -1,0 +1,8 @@
+## Interface: 11507, 16001
+## Title: Economancer
+## Notes: Exports your gold, bags, bank, professions, known recipes and auction history to economancer (skilles.github.io/economancer). Type /econ.
+## Author: Economancer
+## Version: 0.1.0
+## SavedVariables: EconomancerDB
+
+Economancer.lua

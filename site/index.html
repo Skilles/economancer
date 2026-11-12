@@ -30,12 +30,15 @@
   </header>
   <nav class="tabs" id="tabs">
     <button data-tab="picks">Top picks</button>
+    <button data-tab="plan">Plan</button>
+    <button data-tab="stuff">My stuff</button>
     <button data-tab="arbitrage">Arbitrage</button>
     <button data-tab="flips">Flips</button>
     <button data-tab="crafts">Crafts</button>
     <button data-tab="shuffles">Shuffles</button>
     <button data-tab="forecast">Forecast</button>
     <button data-tab="lookup">Lookup</button>
+    <button data-tab="character">Character</button>
   </nav>
 
   <div id="status" class="status"></div>
@@ -50,9 +53,10 @@
       <label>Sell horizon (days)<input type="number" step="0.5" min="0.5" name="horizon"></label>
       <label>Min profit per pick (gold)<input type="number" step="0.5" min="0" name="minProfit"></label>
       <label>Flip discount vs typical price %<input type="number" step="1" min="5" max="90" name="flipDiscount"></label>
-      <label>Budget (gold, 0 = no limit)<input type="number" step="10" min="0" name="budget"></label>
+      <label>Budget if not using your gold (0 = no limit)<input type="number" step="10" min="0" name="budget"></label>
       <fieldset>
         <legend>My professions (crafts and shuffles)</legend>
+        <p id="profNote" class="sub"></p>
         <div id="profList" class="prof-list"></div>
       </fieldset>
       <div class="dialog-actions">

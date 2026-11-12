@@ -8,6 +8,10 @@ Gold-making planner for **World of Warcraft: Forever**. It pulls every Forever a
 - **Shuffles**: 2–3 step chains (smelt → transmute, essence split/combine, cloth → bolts…)
 - **Forecast**: 3- and 7-day price estimates, each material's tier and longevity, and a population "progression index"
 
+- **Plan**: a buy, craft and post list for your gold, with no double-spending
+- **My stuff**: the best thing to do with each item you own (sell here or on neutral, craft, hold, vendor)
+- **Character**: import from the companion addon or enter things by hand. Includes profit tracking from your AH mail.
+
 It's a static site on GitHub Pages. A scheduled GitHub Action does all the data work, so there's no server.
 
 ## How it works
@@ -36,6 +40,18 @@ The browser loads the JSON for the chosen region, ruleset and faction (your fact
 4. Optional: add a repo variable `REGIONS` (default `us,eu`)
 
 GitHub turns off scheduled workflows after 60 days with no repo activity. If that happens, re-enable the workflow from the Actions tab.
+
+## Companion addon
+
+`addon/Economancer` is a small in-game addon. The workflow zips it and publishes it as `Economancer-addon.zip` on the site. It records:
+
+- gold, bags, and bank (bank only while the bank window is open)
+- professions with skill levels, and known recipes (recorded when you open each profession window)
+- auction sales and purchases, from mailbox invoices
+
+`/econ` opens an export window. Press Ctrl+C and paste into the site's Character tab. Addons can't access the internet, so it's copy and paste by design. Data stays in your browser's localStorage. `/econ forget` clears the current character and `/econ reset` clears everything.
+
+If the client says the addon is out of date, tick "Load out of date AddOns" or update the `## Interface:` line in `Economancer.toc` to the version shown in-game. The addon tries the modern APIs first and falls back to the classic ones, because Forever's client API isn't fully documented.
 
 ## Forecast model
 

@@ -44,7 +44,13 @@ export async function discoverRecipes(api, region, log) {
       }
       const cq = r.crafted_quantity ?? {};
       const outQty = cq.value ?? (cq.minimum && cq.maximum ? (cq.minimum + cq.maximum) / 2 : 1);
-      out.push({ id: r.id, name: nameOf(r.name), prof: ref.prof, out: item.id, outQty, mats: reagents, src: "api" });
+      const names = { [item.id]: nameOf(item.name) };
+      for (const x of r.reagents ?? []) {
+        if (x.reagent?.id) {
+          names[x.reagent.id] = nameOf(x.reagent.name);
+        }
+      }
+      out.push({ id: r.id, name: nameOf(r.name), prof: ref.prof, out: item.id, outQty, mats: reagents, names, src: "api" });
     } catch (err) {
       log(`recipes: ${ref.id} failed: ${err.message}`);
     }

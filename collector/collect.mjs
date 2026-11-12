@@ -153,6 +153,12 @@ async function main() {
           if (prevOut) {
             log(`${hk}: unchanged, reusing last output`);
             houseJobs.push({ region, house: h, reuse: prevOut });
+            const ki = prevOut.cols.indexOf("key");
+            const ni = prevOut.cols.indexOf("n");
+            for (const row of prevOut.rows) {
+              const id = Number(String(row[ki]).split(":")[0]);
+              seenItems.set(id, (seenItems.get(id) ?? 0) + (row[ni] ?? 1));
+            }
           }
           return;
         }
@@ -206,7 +212,8 @@ async function main() {
 
   // ---------- 2. recipes (weekly) ----------
   const now = Math.floor(Date.now() / 1000);
-  if (!recipes || !meta.recipesAt || now - meta.recipesAt > RECIPE_REFRESH_DAYS * 86400) {
+  if (!recipes || !meta.recipesAt || now - meta.recipesAt > RECIPE_REFRESH_DAYS * 86400 || meta.recipesV !== 2) {
+    meta.recipesV = 2;
     let apiRecipes = [];
     try {
       apiRecipes = await discoverRecipes(api, REGIONS[0], log);
@@ -293,6 +300,19 @@ async function main() {
     });
     log(`items: ${missing.length - failed} found (${fromClassic} via Classic), ${failed} not found anywhere`);
   }
+
+  // Recipe data names its reagents and products, which covers Forever-only items
+  // that the item endpoint doesn't know.
+  let namedFromRecipes = 0;
+  for (const r of recipes) {
+    for (const [id, name] of Object.entries(r.names ?? {})) {
+      if (!items[id] && name) {
+        items[id] = [name, "COMMON", 0, 0, -1, -1, 0, 0];
+        namedFromRecipes++;
+      }
+    }
+  }
+  itemStats.fromRecipes = namedFromRecipes;
 
   // ---------- 4. population sample (optional) ----------
   for (const region of REGIONS) {

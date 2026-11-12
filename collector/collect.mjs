@@ -233,39 +233,50 @@ async function main() {
   for (const id of curated.vendorItems) {
     wanted.set(id, 1e7);
   }
+  meta.itemMiss ??= {};
   const missing = [...wanted.entries()]
-    .filter(([id]) => !items[id])
+    .filter(([id]) => !items[id] && !(meta.itemMiss[id] && now - meta.itemMiss[id] < 3 * 86400))
     .sort((a, b) => b[1] - a[1])
     .slice(0, MAX_ITEM_FETCH)
     .map(([id]) => id);
   if (missing.length) {
     log(`items: fetching ${missing.length} new item records`);
     let failed = 0;
+    let fromClassic = 0;
+    const region0 = REGIONS[0];
+    // Forever's item endpoint 404s on many ids; Classic Era shares vanilla ids, so fall back to it for names.
+    const namespaces = [undefined, `static-classic1x-${region0}`, `static-classic-${region0}`];
     await pool(missing, 16, async (id) => {
-      try {
-        const res = await api.get(REGIONS[0], `/data/wow/item/${id}`, "static");
-        const d = res.data;
-        if (!d) {
-          failed++;
+      for (const ns of namespaces) {
+        try {
+          const res = await api.get(region0, `/data/wow/item/${id}`, "static", { namespace: ns, retries: 2 });
+          const d = res.data;
+          if (!d) {
+            continue;
+          }
+          items[id] = [
+            nameOf(d.name),
+            d.quality?.type ?? "COMMON",
+            d.sell_price ?? 0,
+            d.purchase_price ?? 0,
+            d.item_class?.id ?? -1,
+            d.item_subclass?.id ?? -1,
+            d.level ?? 0,
+            d.required_level ?? 0,
+          ];
+          if (ns) {
+            fromClassic++;
+          }
+          delete meta.itemMiss[id];
           return;
+        } catch {
+          // try the next namespace
         }
-        items[id] = [
-          nameOf(d.name),
-          d.quality?.type ?? "COMMON",
-          d.sell_price ?? 0,
-          d.purchase_price ?? 0,
-          d.item_class?.id ?? -1,
-          d.item_subclass?.id ?? -1,
-          d.level ?? 0,
-          d.required_level ?? 0,
-        ];
-      } catch {
-        failed++;
       }
+      failed++;
+      meta.itemMiss[id] = now;
     });
-    if (failed) {
-      log(`items: ${failed} lookups failed`);
-    }
+    log(`items: ${missing.length - failed} found (${fromClassic} via Classic), ${failed} not found anywhere`);
   }
 
   // ---------- 4. population sample (optional) ----------
@@ -359,8 +370,39 @@ async function main() {
     const rs = (reg.rulesets[out.ruleset.id] ??= { id: out.ruleset.id, name: out.ruleset.name, houses: [] });
     rs.houses.push({ id: out.id, name: out.name, faction: out.faction, file, snap: out.snap, auctions: out.auctions });
   }
-  for (const reg of Object.values(publicMeta.regions)) {
-    reg.rulesets = Object.values(reg.rulesets).sort((a, b) => a.id - b.id);
+  // Every ruleset lists the same 15 houses and the API doesn't say which belong together,
+  // so group them into markets by id: the i-th Alliance, Horde and Blackwater house form one market.
+  const groupCfg = curated.houseGroups ?? {};
+  for (const [region, reg] of Object.entries(publicMeta.regions)) {
+    const all = Object.values(reg.rulesets).flatMap((r) => r.houses);
+    const byFaction = { alliance: [], horde: [], neutral: [] };
+    for (const h of all) {
+      byFaction[h.faction]?.push(h);
+    }
+    for (const list of Object.values(byFaction)) {
+      list.sort((a, b) => a.id - b.id);
+    }
+    const n = Math.max(byFaction.alliance.length, byFaction.horde.length);
+    const groups = [];
+    for (let i = 0; i < n; i++) {
+      const houses = [byFaction.alliance[i], byFaction.horde[i], byFaction.neutral[i]].filter(Boolean);
+      const auctions = houses.reduce((s, h) => s + (h.auctions ?? 0), 0);
+      if (auctions === 0) {
+        continue; // unused market (e.g. houses 112/115/118)
+      }
+      const gid = houses[0].id;
+      const cfg = groupCfg[region]?.[gid] ?? groupCfg["*"]?.[gid] ?? null;
+      const ids = houses.map((h) => h.id).join("/");
+      groups.push({
+        id: gid,
+        name: cfg?.name ?? `Market ${groups.length + 1}`,
+        verified: cfg?.verified ?? false,
+        houseIds: ids,
+        auctions,
+        houses,
+      });
+    }
+    reg.rulesets = groups;
   }
 
   // Items: only those relevant (seen on AH or used in recipes) to keep the file small.

@@ -37,14 +37,22 @@ const ITEMS = [...new Set([
   90001, 90002,
 ])].filter((id) => !curated.vendorItems.includes(id));
 
-const RULESETS = [{ id: 1, name: "PvP" }, { id: 2, name: "Normal" }];
+// Like the live API: rulesets carry no names in the index, and every ruleset lists the
+// same global houses whose names don't say which ruleset they belong to.
+const RULESETS = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 15 }];
 const HOUSES = [
-  { id: 2, rs: 2, name: "Normal Alliance Auction House", mult: 1.0 },
-  { id: 6, rs: 2, name: "Normal Horde Auction House", mult: 1.12 },
-  { id: 7, rs: 2, name: "Normal Neutral Auction House", mult: 0.8 },
-  { id: 12, rs: 1, name: "PvP Alliance Auction House", mult: 1.05 },
-  { id: 16, rs: 1, name: "PvP Horde Auction House", mult: 0.95 },
-  { id: 17, rs: 1, name: "PvP Neutral Auction House", mult: 0.85 },
+  { id: 110, name: "Alliance Auction House", mult: 1.05 },
+  { id: 111, name: "Alliance Auction House", mult: 1.0 },
+  { id: 112, name: "Alliance Auction House", empty: true },
+  { id: 113, name: "Horde Auction House", mult: 0.95 },
+  { id: 114, name: "Horde Auction House", mult: 1.12 },
+  { id: 115, name: "Horde Auction House", empty: true },
+  { id: 116, name: "Blackwater Auction House", mult: 0.85 },
+  { id: 117, name: "Blackwater Auction House", mult: 0.8 },
+  { id: 118, name: "Blackwater Auction House", empty: true },
+  { id: 119, name: "Alliance Auction House", mult: 1.2 },
+  { id: 120, name: "Horde Auction House", mult: 1.1 },
+  { id: 121, name: "Blackwater Auction House", mult: 0.9 },
 ];
 
 function basePrice(id) {
@@ -61,9 +69,9 @@ function commodityAuctions(house, t) {
       return; // not listed on this house
     }
     const drift = (rand(itemId) - 0.5) * 0.03; // per hour
-    const neutralNoise = house.name.includes("Neutral") ? 0.6 + rand(itemId + house.id) : 1;
+    const neutralNoise = house.name.includes("Blackwater") ? 0.6 + rand(itemId + house.id) : 1;
     const p0 = basePrice(itemId) * house.mult * neutralNoise * (1 + drift * t);
-    const listings = house.name.includes("Neutral") ? 3 : 12;
+    const listings = house.name.includes("Blackwater") ? 3 : 12;
     const soldPerHour = Math.floor(rand(itemId + 3) * 3);
     const firstAlive = soldPerHour * t;
     for (let j = firstAlive; j < firstAlive + listings; j++) {
@@ -111,7 +119,7 @@ const server = http.createServer((req, res) => {
     // Like the live API: every ruleset lists the same global houses.
     return json(res, 200, {
       auctions: HOUSES.map((h) => ({
-        key: { href: `https://us.api.blizzard.com/data/wow/ruleset/${h.rs}/auctions/${h.id}?namespace=dynamic-forever-us` },
+        key: { href: `https://us.api.blizzard.com/data/wow/ruleset/${m[1]}/auctions/${h.id}?namespace=dynamic-forever-us` },
         name: h.name,
         id: h.id,
       })),
@@ -119,8 +127,11 @@ const server = http.createServer((req, res) => {
   }
   if ((m = p.match(/^\/data\/wow\/ruleset\/(\d+)\/auctions\/(\d+)(\/commodities)?$/))) {
     const h = HOUSES.find((x) => x.id === Number(m[2]));
-    if (!h || h.rs !== Number(m[1])) {
+    if (!h || !RULESETS.some((r) => r.id === Number(m[1]))) {
       return json(res, 404, { code: 404 });
+    }
+    if (h.empty) {
+      return m[3] ? json(res, 200, {}, { "Last-Modified": lm }) : json(res, 200, { id: h.id, name: h.name, ruleset: { key: { href: "x" }, id: Number(m[1]) } }, { "Last-Modified": lm });
     }
     if (req.headers["if-modified-since"] === lm) {
       res.writeHead(304);
@@ -129,14 +140,17 @@ const server = http.createServer((req, res) => {
     if (m[3]) {
       return json(res, 200, { auctions: commodityAuctions(h, t) }, { "Last-Modified": lm });
     }
-    const rs = RULESETS.find((r) => r.id === h.rs);
     return json(res, 200, {
-      id: h.id, name: h.name, ruleset: { id: rs.id, name: rs.name },
+      id: h.id, name: h.name, ruleset: { key: { href: "x" }, id: Number(m[1]) },
       auctions: gearAuctions(h, t), commodities: { href: "x" },
     }, { "Last-Modified": lm });
   }
   if ((m = p.match(/^\/data\/wow\/item\/(\d+)$/))) {
     const id = Number(m[1]);
+    // Like the live API, Forever's item endpoint misses many ids; Classic Era has them.
+    if (id % 3 === 0 && !(u.searchParams.get("namespace") ?? "").includes("classic")) {
+      return json(res, 404, { code: 404 });
+    }
     const tag = curated.materialTags[id];
     const isPotion = tag && tag[1] === "endgame-consumable" && id > 13000 && id < 13600;
     return json(res, 200, {

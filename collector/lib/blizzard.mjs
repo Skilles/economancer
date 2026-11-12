@@ -35,7 +35,7 @@ export class Blizzard {
     return this.token;
   }
 
-  url(region, pathOrHref, kind) {
+  url(region, pathOrHref, kind, namespace) {
     if (pathOrHref.startsWith("http")) {
       // Blizzard "href" links already carry the namespace.
       const u = new URL(pathOrHref);
@@ -49,15 +49,16 @@ export class Blizzard {
     }
     const base = this.apiBase.replace("{region}", region);
     const sep = pathOrHref.includes("?") ? "&" : "?";
-    return `${base}${pathOrHref}${sep}namespace=${kind}-forever-${region}&locale=en_US`;
+    const ns = namespace ?? `${kind}-forever-${region}`;
+    return `${base}${pathOrHref}${sep}namespace=${ns}&locale=en_US`;
   }
 
   /**
    * GET with retries. Returns { status, data, lastModified }.
    * status 304 => not modified (data null). 404 => data null.
    */
-  async get(region, path, kind = "dynamic", { ifModifiedSince, retries = 4 } = {}) {
-    const url = this.url(region, path, kind);
+  async get(region, path, kind = "dynamic", { ifModifiedSince, retries = 4, namespace } = {}) {
+    const url = this.url(region, path, kind, namespace);
     for (let attempt = 0; ; attempt++) {
       const token = await this.getToken();
       const headers = { Authorization: `Bearer ${token}`, "Accept-Encoding": "gzip" };

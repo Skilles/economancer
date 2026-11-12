@@ -1,6 +1,16 @@
 {
   "_readme": "Hand-maintained data. Item IDs are classic (1.12) IDs; Forever may change some recipes, so verify in-game and edit freely. 'recipes' are merged with recipes discovered from the Blizzard API (API wins when both define the same output+mats).",
 
+  "houseGroups": {
+    "_readme": "Maps each market (keyed by its Alliance house id) to a ruleset name. The API doesn't say which is which; these are guesses from house creation order until checked in-game. Set verified: true once confirmed. Use a region key (us/eu) to override per region.",
+    "*": {
+      "110": { "name": "PvP", "verified": false },
+      "111": { "name": "Normal", "verified": false },
+      "119": { "name": "Roleplay", "verified": false },
+      "123": { "name": "Roleplay PvP", "verified": false }
+    }
+  },
+
   "vendorItems": [159, 2320, 2321, 4291, 8343, 14341, 3371, 3372, 8925, 18256, 2678, 2692, 2880, 3466, 18567, 4470, 4399, 4400, 2604, 6260, 2325, 4342, 10290, 4340, 2324, 6261, 4341, 4289, 6217],
 
   "recipes": [

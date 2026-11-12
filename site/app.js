@@ -569,6 +569,10 @@ function renderStatus() {
       parts.push(`<span class="warn">sales estimates warming up (${F.covHours}h of data)</span>`);
     }
   }
+  const rs = S.meta ? rulesetObj() : null;
+  if (rs && rs.verified === false) {
+    parts.push(`<span class="warn">ruleset label unverified (houses ${esc(rs.houseIds)}) — <a href="#lookup">check a price in-game</a></span>`);
+  }
   if (hasImport()) {
     const ac = activeChars();
     parts.push(`using ${ac.length === 1 ? esc(ac[0][0]) : `${ac.length} characters`}`);
@@ -607,7 +611,7 @@ function fillPickers() {
   }
   regionSel.value = S.region;
   const rulesets = S.meta.regions[S.region]?.rulesets ?? [];
-  rsSel.innerHTML = rulesets.map((r) => `<option value="${r.id}">${esc(r.name)}</option>`).join("");
+  rsSel.innerHTML = rulesets.map((r) => `<option value="${r.id}">${esc(r.name)}${r.verified === false ? " (?)" : ""}</option>`).join("");
   if (!rulesets.some((r) => String(r.id) === String(S.ruleset))) {
     S.ruleset = rulesets.find((r) => /normal/i.test(r.name))?.id ?? rulesets[0]?.id;
   }

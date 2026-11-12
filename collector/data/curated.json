@@ -1,0 +1,118 @@
+{
+  "_readme": "Hand-maintained data. Item IDs are classic (1.12) IDs; Forever may change some recipes, so verify in-game and edit freely. 'recipes' are merged with recipes discovered from the Blizzard API (API wins when both define the same output+mats).",
+
+  "vendorItems": [159, 2320, 2321, 4291, 8343, 14341, 3371, 3372, 8925, 18256, 2678, 2692, 2880, 3466, 18567, 4470, 4399, 4400, 2604, 6260, 2325, 4342, 10290, 4340, 2324, 6261, 4341, 4289, 6217],
+
+  "recipes": [
+    { "name": "Smelt Copper", "prof": "Mining", "out": 2840, "outQty": 1, "mats": [[2770, 1]] },
+    { "name": "Smelt Tin", "prof": "Mining", "out": 3576, "outQty": 1, "mats": [[2771, 1]] },
+    { "name": "Smelt Bronze", "prof": "Mining", "out": 2841, "outQty": 2, "mats": [[2840, 1], [3576, 1]] },
+    { "name": "Smelt Silver", "prof": "Mining", "out": 2842, "outQty": 1, "mats": [[2775, 1]] },
+    { "name": "Smelt Iron", "prof": "Mining", "out": 3575, "outQty": 1, "mats": [[2772, 1]] },
+    { "name": "Smelt Gold", "prof": "Mining", "out": 3577, "outQty": 1, "mats": [[2776, 1]] },
+    { "name": "Smelt Mithril", "prof": "Mining", "out": 3860, "outQty": 1, "mats": [[3858, 1]] },
+    { "name": "Smelt Truesilver", "prof": "Mining", "out": 6037, "outQty": 1, "mats": [[7911, 1]] },
+    { "name": "Smelt Thorium", "prof": "Mining", "out": 12359, "outQty": 1, "mats": [[10620, 1]] },
+    { "name": "Smelt Dark Iron", "prof": "Mining", "out": 11371, "outQty": 1, "mats": [[11370, 8]] },
+
+    { "name": "Transmute: Arcanite", "prof": "Alchemy", "out": 12360, "outQty": 1, "mats": [[12359, 1], [12363, 1]], "cd": true },
+    { "name": "Transmute: Iron to Gold", "prof": "Alchemy", "out": 3577, "outQty": 1, "mats": [[3575, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Mithril to Truesilver", "prof": "Alchemy", "out": 6037, "outQty": 1, "mats": [[3860, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Air to Fire", "prof": "Alchemy", "out": 7078, "outQty": 1, "mats": [[7082, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Fire to Earth", "prof": "Alchemy", "out": 7076, "outQty": 1, "mats": [[7078, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Earth to Water", "prof": "Alchemy", "out": 7080, "outQty": 1, "mats": [[7076, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Water to Air", "prof": "Alchemy", "out": 7082, "outQty": 1, "mats": [[7080, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Undeath to Water", "prof": "Alchemy", "out": 7080, "outQty": 1, "mats": [[12808, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Water to Undeath", "prof": "Alchemy", "out": 12808, "outQty": 1, "mats": [[7080, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Earth to Life", "prof": "Alchemy", "out": 12803, "outQty": 1, "mats": [[7076, 1]], "note": "check cooldown" },
+    { "name": "Transmute: Life to Earth", "prof": "Alchemy", "out": 7076, "outQty": 1, "mats": [[12803, 1]], "note": "check cooldown" },
+    { "name": "Flask of the Titans", "prof": "Alchemy", "out": 13510, "outQty": 1, "mats": [[8846, 30], [13423, 10], [13468, 1], [8925, 1]] },
+    { "name": "Flask of Supreme Power", "prof": "Alchemy", "out": 13512, "outQty": 1, "mats": [[13463, 30], [13465, 10], [13468, 1], [8925, 1]] },
+    { "name": "Flask of Distilled Wisdom", "prof": "Alchemy", "out": 13511, "outQty": 1, "mats": [[13463, 30], [13467, 10], [13468, 1], [8925, 1]] },
+    { "name": "Major Healing Potion", "prof": "Alchemy", "out": 13446, "outQty": 1, "mats": [[13464, 2], [13465, 1], [8925, 1]] },
+    { "name": "Major Mana Potion", "prof": "Alchemy", "out": 13444, "outQty": 1, "mats": [[13463, 3], [13467, 2], [8925, 1]] },
+    { "name": "Greater Arcane Elixir", "prof": "Alchemy", "out": 13454, "outQty": 1, "mats": [[13463, 3], [13465, 1], [8925, 1]] },
+    { "name": "Elixir of the Mongoose", "prof": "Alchemy", "out": 13452, "outQty": 1, "mats": [[13465, 2], [13466, 2], [8925, 1]] },
+    { "name": "Mighty Rage Potion", "prof": "Alchemy", "out": 13442, "outQty": 1, "mats": [[8846, 3], [8925, 1]] },
+    { "name": "Greater Fire Protection Potion", "prof": "Alchemy", "out": 13457, "outQty": 1, "mats": [[7068, 1], [13463, 1], [8925, 1]] },
+    { "name": "Free Action Potion", "prof": "Alchemy", "out": 5634, "outQty": 1, "mats": [[6370, 2], [3820, 1], [3372, 1]] },
+
+    { "name": "Stonescale Oil", "prof": "Fishing/Cooking", "out": 13423, "outQty": 1, "mats": [[13422, 1]] },
+    { "name": "Blackmouth Oil", "prof": "Fishing/Cooking", "out": 6370, "outQty": 1, "mats": [[6358, 1]] },
+
+    { "name": "Bolt of Linen Cloth", "prof": "Tailoring", "out": 2996, "outQty": 1, "mats": [[2589, 2]] },
+    { "name": "Bolt of Woolen Cloth", "prof": "Tailoring", "out": 2997, "outQty": 1, "mats": [[2592, 3]] },
+    { "name": "Bolt of Silk Cloth", "prof": "Tailoring", "out": 4305, "outQty": 1, "mats": [[4306, 4]] },
+    { "name": "Bolt of Mageweave", "prof": "Tailoring", "out": 4339, "outQty": 1, "mats": [[4338, 5]] },
+    { "name": "Bolt of Runecloth", "prof": "Tailoring", "out": 14048, "outQty": 1, "mats": [[14047, 5]] },
+    { "name": "Mooncloth", "prof": "Tailoring", "out": 14342, "outQty": 1, "mats": [[14256, 2]], "cd": true },
+
+    { "name": "Combine Lesser Magic Essence", "prof": "Enchanting", "out": 10939, "outQty": 1, "mats": [[10938, 3]] },
+    { "name": "Split Greater Magic Essence", "prof": "Enchanting", "out": 10938, "outQty": 3, "mats": [[10939, 1]] },
+    { "name": "Combine Lesser Astral Essence", "prof": "Enchanting", "out": 11082, "outQty": 1, "mats": [[10998, 3]] },
+    { "name": "Split Greater Astral Essence", "prof": "Enchanting", "out": 10998, "outQty": 3, "mats": [[11082, 1]] },
+    { "name": "Combine Lesser Mystic Essence", "prof": "Enchanting", "out": 11135, "outQty": 1, "mats": [[11134, 3]] },
+    { "name": "Split Greater Mystic Essence", "prof": "Enchanting", "out": 11134, "outQty": 3, "mats": [[11135, 1]] },
+    { "name": "Combine Lesser Nether Essence", "prof": "Enchanting", "out": 11175, "outQty": 1, "mats": [[11174, 3]] },
+    { "name": "Split Greater Nether Essence", "prof": "Enchanting", "out": 11174, "outQty": 3, "mats": [[11175, 1]] },
+    { "name": "Combine Lesser Eternal Essence", "prof": "Enchanting", "out": 16203, "outQty": 1, "mats": [[16202, 3]] },
+    { "name": "Split Greater Eternal Essence", "prof": "Enchanting", "out": 16202, "outQty": 3, "mats": [[16203, 1]] }
+  ],
+
+  "materialTags": {
+    "_format": "itemId: [tierLevel, role]. role = leveling | endgame-crafting | endgame-consumable",
+    "2770": [5, "leveling"], "2771": [15, "leveling"], "2775": [20, "leveling"], "2772": [30, "leveling"], "2776": [30, "leveling"],
+    "3858": [40, "leveling"], "7911": [45, "leveling"], "10620": [55, "endgame-crafting"], "11370": [55, "endgame-crafting"],
+    "2840": [5, "leveling"], "3576": [15, "leveling"], "2841": [15, "leveling"], "2842": [20, "leveling"], "3575": [30, "leveling"],
+    "3577": [30, "leveling"], "3859": [30, "leveling"], "3860": [40, "leveling"], "6037": [45, "leveling"],
+    "12359": [55, "endgame-crafting"], "12360": [60, "endgame-crafting"], "11371": [58, "endgame-crafting"],
+    "2835": [5, "leveling"], "2836": [15, "leveling"], "2838": [25, "leveling"], "7912": [40, "leveling"], "12365": [55, "endgame-consumable"],
+    "2589": [5, "leveling"], "2592": [18, "leveling"], "4306": [28, "leveling"], "4338": [40, "leveling"],
+    "14047": [55, "endgame-consumable"], "14256": [58, "endgame-crafting"], "14342": [60, "endgame-crafting"],
+    "2996": [5, "leveling"], "2997": [18, "leveling"], "4305": [28, "leveling"], "4339": [40, "leveling"], "14048": [55, "endgame-crafting"],
+    "2318": [5, "leveling"], "2319": [15, "leveling"], "4234": [28, "leveling"], "4304": [38, "leveling"],
+    "8170": [50, "endgame-crafting"], "15417": [55, "endgame-crafting"],
+    "2447": [5, "leveling"], "765": [5, "leveling"], "2449": [8, "leveling"], "785": [12, "leveling"], "2450": [12, "leveling"],
+    "3820": [18, "endgame-consumable"], "2453": [20, "leveling"], "3355": [25, "leveling"], "3369": [25, "leveling"],
+    "3356": [28, "leveling"], "3357": [30, "leveling"], "3818": [32, "leveling"], "3821": [34, "leveling"], "3358": [36, "leveling"],
+    "3819": [38, "leveling"], "4625": [40, "leveling"], "8831": [42, "leveling"], "8836": [44, "leveling"], "8838": [46, "leveling"],
+    "8839": [47, "leveling"], "8845": [48, "leveling"], "8846": [50, "endgame-consumable"], "13464": [52, "endgame-consumable"],
+    "13463": [54, "endgame-consumable"], "13465": [56, "endgame-consumable"], "13466": [57, "endgame-consumable"],
+    "13467": [58, "endgame-consumable"], "13468": [60, "endgame-consumable"],
+    "10940": [20, "leveling"], "11083": [32, "leveling"], "11137": [42, "leveling"], "11176": [50, "endgame-crafting"], "16204": [58, "endgame-crafting"],
+    "10938": [10, "leveling"], "10939": [15, "leveling"], "10998": [25, "leveling"], "11082": [30, "leveling"],
+    "11134": [35, "leveling"], "11135": [40, "leveling"], "11174": [45, "leveling"], "11175": [50, "leveling"],
+    "16202": [55, "endgame-crafting"], "16203": [58, "endgame-crafting"], "14343": [55, "endgame-crafting"], "14344": [60, "endgame-crafting"], "20725": [60, "endgame-crafting"],
+    "7068": [45, "endgame-consumable"], "7067": [45, "endgame-crafting"], "7070": [45, "endgame-crafting"], "7069": [45, "endgame-crafting"],
+    "7078": [55, "endgame-crafting"], "7076": [55, "endgame-crafting"], "7080": [55, "endgame-crafting"], "7082": [55, "endgame-crafting"],
+    "12808": [55, "endgame-crafting"], "12803": [55, "endgame-crafting"], "12363": [55, "endgame-crafting"],
+    "13422": [55, "endgame-consumable"], "6358": [30, "endgame-consumable"], "6370": [30, "endgame-consumable"],
+    "13510": [60, "endgame-consumable"], "13512": [60, "endgame-consumable"], "13511": [60, "endgame-consumable"],
+    "13446": [55, "endgame-consumable"], "13444": [55, "endgame-consumable"], "13454": [55, "endgame-consumable"],
+    "13452": [55, "endgame-consumable"], "13442": [55, "endgame-consumable"], "13457": [55, "endgame-consumable"],
+    "5634": [30, "endgame-consumable"], "13423": [55, "endgame-consumable"]
+  },
+
+  "gatheredMaterials": [2770, 2771, 2775, 2772, 2776, 3858, 7911, 10620, 2589, 2592, 4306, 4338, 14047, 2318, 2319, 4234, 4304, 8170, 2447, 765, 2449, 785, 2450, 2453, 3355, 3356, 3357, 3818, 3821, 3358, 3819, 4625, 8831, 8836, 8838, 8839, 8845, 8846, 13464, 13463, 13465, 13466, 13467],
+
+  "forecastModel": {
+    "_readme": "Heuristic priors for a fresh economy. 'front' = estimated level where most of the population currently is. Drifts are log-price change per day. Tune these as real data comes in.",
+    "trendDamping": 0.5,
+    "maxTrendWeight": 0.65,
+    "trendFullDays": 5,
+    "maxMovePct": 60,
+    "bands": { "aheadBy": 5, "behindBy": 10, "earlyBelow": 45, "lateAbove": 56 },
+    "priorPerDay": {
+      "leveling": { "ahead": 0.004, "inBand": -0.003, "behind": -0.012 },
+      "endgame-consumable": { "early": -0.004, "mid": 0.0, "late": 0.004 },
+      "endgame-crafting": { "early": -0.012, "mid": -0.006, "late": -0.002 },
+      "unknown": 0
+    },
+    "longevity": {
+      "endgame-consumable": 90,
+      "endgame-crafting": 60,
+      "leveling": { "ahead": 45, "inBand": 35, "behind": 15 },
+      "unknown": 30
+    }
+  }
+}

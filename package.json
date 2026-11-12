@@ -1,0 +1,11 @@
+{
+  "name": "economancer",
+  "private": true,
+  "type": "module",
+  "description": "WoW: Forever auction house gold-making planner",
+  "scripts": {
+    "collect": "node collector/collect.mjs",
+    "test": "./test/run.sh 30"
+  },
+  "engines": { "node": ">=22" }
+}

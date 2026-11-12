@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Economancer — WoW Forever gold-making planner</title>
+  <meta name="description" content="Arbitrage, flips, crafts, shuffles and price forecasts for World of Warcraft: Forever auction houses.">
+  <meta name="theme-color" content="#14110d">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23e5b94e'/><circle cx='16' cy='16' r='9' fill='none' stroke='%237a5a12' stroke-width='2'/></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="coin" aria-hidden="true"></span>
+      <div>
+        <h1>Economancer</h1>
+        <p class="tag">WoW: Forever auction house planner</p>
+      </div>
+      <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙</button>
+    </div>
+    <div class="pickers">
+      <label><span>Region</span><select id="region"></select></label>
+      <label><span>Ruleset</span><select id="ruleset"></select></label>
+      <div class="faction" role="radiogroup" aria-label="Faction">
+        <button data-faction="alliance" role="radio">Alliance</button>
+        <button data-faction="horde" role="radio">Horde</button>
+      </div>
+    </div>
+  </header>
+  <nav class="tabs" id="tabs">
+    <button data-tab="picks">Top picks</button>
+    <button data-tab="arbitrage">Arbitrage</button>
+    <button data-tab="flips">Flips</button>
+    <button data-tab="crafts">Crafts</button>
+    <button data-tab="shuffles">Shuffles</button>
+    <button data-tab="forecast">Forecast</button>
+    <button data-tab="lookup">Lookup</button>
+  </nav>
+
+  <div id="status" class="status"></div>
+  <main id="view" class="view"><p class="loading">Loading auction data…</p></main>
+
+  <dialog id="settings">
+    <form method="dialog" id="settingsForm">
+      <h2>Settings</h2>
+      <label>Faction AH cut %<input type="number" step="0.5" min="0" max="50" name="factionCut"></label>
+      <label>Neutral AH cut %<input type="number" step="0.5" min="0" max="50" name="neutralCut"></label>
+      <label>Min sales per day<input type="number" step="0.5" min="0" name="minSpd"></label>
+      <label>Sell horizon (days)<input type="number" step="0.5" min="0.5" name="horizon"></label>
+      <label>Min profit per pick (gold)<input type="number" step="0.5" min="0" name="minProfit"></label>
+      <label>Flip discount vs typical price %<input type="number" step="1" min="5" max="90" name="flipDiscount"></label>
+      <label>Budget (gold, 0 = no limit)<input type="number" step="10" min="0" name="budget"></label>
+      <fieldset>
+        <legend>My professions (crafts and shuffles)</legend>
+        <div id="profList" class="prof-list"></div>
+      </fieldset>
+      <div class="dialog-actions">
+        <button value="cancel" formnovalidate>Cancel</button>
+        <button value="save" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="foot">
+    <p>Data from the Blizzard Battle.net API, refreshed hourly. Sales are estimated from auctions that vanish before expiring, so cancellations add some noise. Forecasts are heuristic — treat them as a second opinion, not a promise.</p>
+    <p>Not affiliated with Blizzard Entertainment. World of Warcraft is a trademark of Blizzard Entertainment, Inc.</p>
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

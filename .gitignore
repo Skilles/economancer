@@ -1,0 +1,6 @@
+node_modules/
+state/
+public/
+test/state/
+test/public/
+test/.tick

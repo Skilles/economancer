@@ -3,6 +3,7 @@ name: Hourly refresh
 # GitHub runs scheduled workflows as the last person to edit this file, so it must be
 # committed by someone with access to the repo (the owner) or it never fires.
 on:
+  workflow_dispatch:
   schedule:
     - cron: "23 * * * *"
 
